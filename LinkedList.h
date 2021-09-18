@@ -4,11 +4,12 @@
 
 using namespace std;
 
+template<typename T>
 class List {
 private:
 	class Node {
 	public:
-		int data;
+		T data;
 		Node* next;
 	};
 
@@ -21,10 +22,10 @@ public:
 	~List();
 
 	int listsize() { return size; }
-	void add(int number);
-	void setnode(Node* n, int setnum, Node* next);
-	bool search(int data);
-	void insert(int pre_data, int next_data, int insert_data);
+	void add(T data);
+	void setnode(Node* n, T setdata, Node* next);
+	bool search(T data);
+	void insert(int pre_data, int next_data, T insert_data);
 	void remove(int node);
 	void clear();
 	void printalldata();
