@@ -1,22 +1,25 @@
 #include "LinkedList.h"
+#include <time.h>
 
-List::List(){
+template<typename T> List<T>::List(){
 	this->head = NULL;
 	this->choose = NULL;
 	this->size = 0;
 }
-List::~List(){
+
+template<typename T> List<T>::~List(){
 	clear();
 }
 
-void List::setnode(Node* n, int setnum, Node* next){
+template<typename T> void List<T>::setnode(Node* n, T setdata, Node* next){
 	n->data = setnum;
 	n->next = next;
 }
-void List::add(int number) {
+
+template<typename T> void List<T>::add(T data) {
 	if (head == NULL) {
 		head = new Node;
-		head->data = number;
+		head->data = data;
 		head->next = NULL;
 	}
 	else {
@@ -25,19 +28,24 @@ void List::add(int number) {
 			ptr = ptr->next;
 		}
 		ptr->next = new Node;
-		setnode(ptr->next, number, NULL);
+		setnode(ptr->next, data, NULL);
 	}
 	this->size++;
 }
 
-void List::insert(int pre_data, int next_data, int insert_data){
+template<typename T> void List<T>::insert(int pre_loc, int next_loc, T insert_data){
 	Node* ptr = head;
-	while (ptr->data != pre_data) {
+	for (int i = 0; i < pre_loc - 1; i++)
+	{
 		ptr = ptr->next;
 	}
-
-	if (ptr->next->data != next_data) {
-		cout << "Unable to insert!\n";
+	
+	if (ptr->next == NULL) {
+		//insert data to last node
+		add(insert_data);
+	}
+	else if (pre_loc - next_loc != -1) {
+		cout << "Each nodes are not neighboring!\n";
 		return;
 	}
 	else {
@@ -48,7 +56,7 @@ void List::insert(int pre_data, int next_data, int insert_data){
 	}		
 }
 
-void List::remove(int node){
+template<typename T> void List<T>::remove(int node){
 	Node* ptr = head;
 	
 	if (node > size || node < 0) {
@@ -73,7 +81,8 @@ void List::remove(int node){
 		this->size--;
 	}
 }
-bool List::search(int data) {
+template<typename T>
+bool List<T>::search(T data) {
 	Node* ptr = head;
 	while (ptr != NULL) {
 		if (ptr->data == data) return true;
@@ -81,14 +90,16 @@ bool List::search(int data) {
 	}
 	return false;
 }
-void List::clear(){
+
+template<typename T> void List<T>::clear(){
 	for (int i = this->size; i > 0; i--)
 	{
 		remove(i);
 	}
 	this->size = 0;
 }
-void List::printalldata(){
+
+template<typename T> void List<T>::printalldata(){
 	Node* ptr = head;
 
 	if (head == NULL) {
@@ -96,15 +107,24 @@ void List::printalldata(){
 		return;
 	}
 
-	while (1) {
+	do{
 		cout << ptr->data; 
 		ptr = ptr->next;
-		if (ptr == NULL) break;
 		cout << "->";
-	}
-	cout << endl;
+	} while (ptr != NULL);
+	cout << "NULL" << endl;
 }
 
 int main() {
-	return 0;
+	srand(time(NULL));
+	List<int> li;
+	for (int i = 0; i < 5; i++)
+	{
+		li.add(rand() % 10);
+	}
+	li.printalldata();
+	li.insert(3, 4, 10);
+	li.printalldata();
+	li.insert(li.listsize(), li.listsize() + 1, 10);
+	li.printalldata();
 }
