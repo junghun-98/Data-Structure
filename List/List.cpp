@@ -114,17 +114,3 @@ template<typename T> void List<T>::printalldata(){
 	} while (ptr != NULL);
 	cout << "NULL" << endl;
 }
-
-int main() {
-	srand(time(NULL));
-	List<int> li;
-	for (int i = 0; i < 5; i++)
-	{
-		li.add(rand() % 10);
-	}
-	li.printalldata();
-	li.insert(3, 4, 10);
-	li.printalldata();
-	li.insert(li.listsize(), li.listsize() + 1, 10);
-	li.printalldata();
-}
