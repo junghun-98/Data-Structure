@@ -1,0 +1,19 @@
+﻿  Queue.cpp
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Queue\Queue.cpp(27,16): warning C4244: '초기화 중': 'T'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              T=double
+          ]
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Queue\Queue.cpp(25): message : 클래스 템플릿 멤버 함수 'T queue<T>::deque(void)'을(를) 컴파일하는 중입니다.
+          with
+          [
+              T=double
+          ]
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Queue\Queue.cpp(104): message : 컴파일되는 함수 템플릿 인스턴스화 'T queue<T>::deque(void)'에 대한 참조를 확인하세요.
+          with
+          [
+              T=double
+          ]
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Queue\Queue.cpp(96): message : 컴파일되는 클래스 템플릿 인스턴스화 'queue<double>'에 대한 참조를 확인하세요.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Queue\Queue.cpp(45): warning C4715: 'queue<double>::peek': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  Queue.vcxproj -> C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Queue\Debug\Queue.exe

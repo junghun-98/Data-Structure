@@ -1,0 +1,22 @@
+﻿  Bag.cpp
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(44,37): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(42): message : 클래스 템플릿 멤버 함수 'void bag<int>::remove(T)'을(를) 컴파일하는 중입니다.
+          with
+          [
+              T=int
+          ]
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(97): message : 컴파일되는 함수 템플릿 인스턴스화 'void bag<int>::remove(T)'에 대한 참조를 확인하세요.
+          with
+          [
+              T=int
+          ]
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(79): message : 컴파일되는 클래스 템플릿 인스턴스화 'bag<int>'에 대한 참조를 확인하세요.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(54,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(53): message : 클래스 템플릿 멤버 함수 'void bag<int>::printdata(void)'을(를) 컴파일하는 중입니다.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(90): message : 컴파일되는 함수 템플릿 인스턴스화 'void bag<int>::printdata(void)'에 대한 참조를 확인하세요.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(22,15): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(21): message : 클래스 템플릿 멤버 함수 'void bag<int>::reserve(int)'을(를) 컴파일하는 중입니다.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(35): message : 컴파일되는 함수 템플릿 인스턴스화 'void bag<int>::reserve(int)'에 대한 참조를 확인하세요.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(13): message : 클래스 템플릿 멤버 함수 'bag<int>::bag(const bag<int> &)'을(를) 컴파일하는 중입니다.
+C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Bag.cpp(85): message : 컴파일되는 함수 템플릿 인스턴스화 'bag<int>::bag(const bag<int> &)'에 대한 참조를 확인하세요.
+  Dynamic Bag.vcxproj -> C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\Dynamic Bag\Debug\Dynamic Bag.exe
