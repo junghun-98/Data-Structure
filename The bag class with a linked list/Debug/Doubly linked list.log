@@ -1,5 +1,2 @@
 ﻿  DoublyLinkedLIst.cpp
-C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\The bag class with a linked list\DoublyLinkedLIst.h(40,81): error C2556: 'const dnode *list_search(const dnode *,const dnode::value_type &)': 오버로드된 함수가 'dnode *list_search(const dnode *,const dnode::value_type &)'과(와) 반환 형식만 다릅니다.
-C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\The bag class with a linked list\DoublyLinkedLIst.h(39): message : 'list_search' 선언을 참조하십시오.
-C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\The bag class with a linked list\DoublyLinkedLIst.h(40,14): error C2373: 'list_search': 재정의. 형식 한정자가 다릅니다.
-C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\The bag class with a linked list\DoublyLinkedLIst.h(39): message : 'list_search' 선언을 참조하십시오.
+  Doubly linked list.vcxproj -> C:\Users\cjswp\OneDrive\바탕 화면\Data Structure\The bag class with a linked list\Debug\Doubly linked list.exe
