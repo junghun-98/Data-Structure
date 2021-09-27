@@ -10,7 +10,7 @@ public:
 	typedef double value_type;
 
 	dnode(const value_type& data = value_type(), dnode* init_forelink = NULL, dnode* init_backlink = NULL ) {
-		//dnode initialize
+		//dnode's data initialize
 		data_field = data;
 		link_fore = init_forelink;
 		link_back = init_backlink;
@@ -22,12 +22,12 @@ public:
 	void set_backlink(dnode* new_link) { link_back = new_link; }
 
 	value_type get_data() const { return data_field; }
-	
-	const dnode* get_forelink() const { return link_fore; }
+
 	dnode* get_forelink() { return link_fore; }
-	
-	const dnode* get_backlink() const { return link_fore; }
 	dnode* get_backlink() { return link_back; }
+
+	const dnode* get_forelink() const { return link_fore; }
+	const dnode* get_backlink() const { return link_back; }
 private:
 	value_type data_field;
 	dnode* link_fore;
@@ -35,13 +35,16 @@ private:
 };
 
 size_t list_length(const dnode* head_ptr);
+//Postcondition : 인자로 전달된 포인터가 가리키는 리스트의 크기 반환
 
 void list_head_insert(dnode*& head_ptr, const dnode::value_type& entry);
 void list_insert(dnode* previous_ptr, const dnode::value_type& entry);
 
 const dnode* list_search(const dnode* head_ptr, const dnode::value_type& target);
+dnode* list_search(dnode* head_ptr, const dnode::value_type& target);
 
 const dnode* list_locate(const dnode* head_ptr, size_t position);
+dnode* list_locate(dnode* head_ptr, size_t position);
 // precondition: position > 0
 
 void list_copy(const dnode* source_ptr, dnode*& head_ptr, dnode*& tail_ptr);
@@ -51,6 +54,7 @@ void list_remove(dnode* previous_ptr);
 
 void list_clear(dnode*& head_ptr);
 
+//Doubly Linked List를 이용해 data를 저장하는 bag class
 class bag {
 public:
 	typedef size_t size_type;
@@ -67,13 +71,16 @@ public:
 
 	bool erase_one(const value_type& target);
 
+	size_type size() { return many_nodes; }
 	size_type count(const value_type& target) const;
 	value_type grab();
 
 	void show_content();
+	void show_content_reverse();
 	void insert(const value_type& entry);
-	void sort();
+	void sort(bag& source);
 private:
 	dnode* head_ptr;
+	dnode* tail_ptr;
 	size_type many_nodes;
 };
