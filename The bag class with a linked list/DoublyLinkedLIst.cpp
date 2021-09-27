@@ -106,8 +106,6 @@ void list_copy(const dnode* source_ptr, dnode*& head_ptr, dnode*& tail_ptr) {
 void list_head_remove(dnode*& head_ptr) {
 	dnode* remove_ptr = head_ptr;
 	
-	if (head_ptr == NULL) return;
-
 	head_ptr = head_ptr->get_forelink();
 	if(head_ptr != NULL) head_ptr->set_backlink(NULL);
 	
@@ -270,7 +268,7 @@ void bag::show_content(){
 	while (true) {
 		cout << ptr->get_data();
 		if ((ptr = ptr->get_forelink()) == NULL) break;
-		cout << "<=>";
+		cout << " <=> ";
 	}
 	cout << endl;
 }
@@ -282,7 +280,7 @@ void bag::show_content_reverse() {
 	while (true) {
 		cout << ptr->get_data();
 		if ((ptr = ptr->get_backlink()) == NULL) break;
-		cout << "<=>";
+		cout << " <=> ";
 	}
 	cout << endl;
 }
@@ -323,7 +321,7 @@ int main() {
 	cout << b2.grab() << endl;
 
 	bag b3 = b1 + b2;
-	b3.show_content();
+	cout << "operator + : "; b3.show_content();
 	b3.show_content_reverse();
 	cout << b3.size() << endl;
 
