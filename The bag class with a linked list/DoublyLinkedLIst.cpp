@@ -2,7 +2,6 @@
 //bag Class의 멤버 함수 구현 파일
 
 #include "DoublyLinkedLIst.h"
-#include <time.h>
 
 size_t list_length(const dnode* head_ptr){
 	size_t size = 0;
@@ -158,6 +157,7 @@ void bag::operator =(const bag& source){
 void bag::operator +=(const bag& addend){
 	dnode* copy_head_ptr;
 	dnode* copy_tail_ptr;
+
 	if (addend.many_nodes > 0) {
 		list_copy(addend.head_ptr, copy_head_ptr, copy_tail_ptr);
 
@@ -177,19 +177,19 @@ void bag::operator +=(const bag& addend){
 
 bool bag::operator ==(const bag& source){
 	dnode* fore_bag;
-	dnode* back_bag;
+
 	fore_bag = head_ptr;
-	back_bag = source.head_ptr;
 
 	if (many_nodes != source.many_nodes) return false;
 
-	while (fore_bag != NULL && back_bag != NULL)
+	while (fore_bag != NULL)
 	{
-		if (fore_bag->get_data() != back_bag->get_data()) {
+		value_type target = fore_bag->get_data();
+
+		if (count(target) != source.count(target)) {
 			return false;
 		}
 		fore_bag = fore_bag->get_forelink();
-		back_bag = back_bag->get_forelink();
 	}
 
 	return true;
@@ -197,19 +197,19 @@ bool bag::operator ==(const bag& source){
 
 bool bag::operator !=(const bag& source){
 	dnode* fore_bag;
-	dnode* back_bag;
+
 	fore_bag = head_ptr;
-	back_bag = source.head_ptr;
 
 	if (many_nodes != source.many_nodes) return true;
 
-	while (fore_bag != NULL && back_bag != NULL)
+	while (fore_bag != NULL)
 	{
-		if (fore_bag->get_data() != back_bag->get_data()) {
+		value_type target = fore_bag->get_data();
+
+		if (count(target) != source.count(target)) {
 			return true;
 		}
 		fore_bag = fore_bag->get_forelink();
-		back_bag = back_bag->get_forelink();
 	}
 
 	return false;
@@ -251,6 +251,7 @@ bag::size_type bag::count(const bag::value_type& target) const{
 
 bag::value_type bag::grab(){
 	srand(time(NULL));
+
 	size_type i;
 	const dnode* cursor;
 
@@ -265,6 +266,7 @@ bag::value_type bag::grab(){
 void bag::show_content(){
 	if (head_ptr == NULL) return;
 	dnode* ptr = head_ptr;
+
 	while (true) {
 		cout << ptr->get_data();
 		if ((ptr = ptr->get_forelink()) == NULL) break;
@@ -288,64 +290,29 @@ void bag::show_content_reverse() {
 void bag::insert(const bag::value_type& entry){
 	list_head_insert(head_ptr, entry);
 
-	if (many_nodes == 0) {
+	if (many_nodes == 0) { //insert data to empty list
 		tail_ptr = head_ptr;
 	}
 
 	many_nodes++;
 }
 
-void bag::sort(bag& source){
-	
-}
+void bag::sort(){
+	dnode* temp_ptr;
+	dnode* compare_ptr = head_ptr;
+	value_type temp;
 
-//Test case
-int main() {
-	bag b1;
-	for (size_t i = 0; i < 5; i++)
-	{
-		b1.insert(1 + i);
+	while (compare_ptr != NULL) {
+		temp_ptr = compare_ptr->get_forelink();
+		while (temp_ptr != NULL)
+		{
+			if (compare_ptr->get_data() > temp_ptr->get_data()) { //data swap
+				temp = compare_ptr->get_data();
+				compare_ptr->set_data(temp_ptr->get_data());
+				temp_ptr->set_data(temp);
+			}
+			temp_ptr = temp_ptr->get_forelink();
+		}
+		compare_ptr = compare_ptr->get_forelink();
 	}
-	
-	b1.show_content();
-	cout << b1.size() << endl;
-
-	bag b2(b1);
-	b2.show_content();
-
-	b2.erase_one(3);
-	b2.show_content();
-	b2.show_content_reverse();
-	cout << b2.size() << endl;
-
-	cout << b2.grab() << endl;
-
-	bag b3 = b1 + b2;
-	cout << "operator + : "; b3.show_content();
-	b3.show_content_reverse();
-	cout << b3.size() << endl;
-
-	bag b4;
-	b4 += b1;
-	b4.show_content();
-	b4.show_content_reverse();
-
-	if (b1 == b2) cout << "same\n";
-	else cout << "diff\n";
-	if (b1 != b4) cout << "diff\n";
-	else cout << "same\n";
-
-	b4.show_content();
-	b4.insert(9);
-	b4.show_content();
-
-	if (b4.erase_one(2)) cout << "good!\n";
-	else cout << "none!\n";
-	b4.insert(9);
-	b4.insert(9);
-	b4.insert(9);
-	b4.insert(9);
-	b4.show_content();
-	cout << b4.count(9) << endl;
-	b4.show_content_reverse();
 }

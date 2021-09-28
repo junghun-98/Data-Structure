@@ -18,6 +18,9 @@
     <ClCompile Include="DoublyLinkedLIst.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DoublyLinkedList_Test.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoublyLinkedLIst.h">

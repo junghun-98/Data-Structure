@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DoublyLinkedLIst.cpp" />
+    <ClCompile Include="DoublyLinkedList_Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoublyLinkedLIst.h" />

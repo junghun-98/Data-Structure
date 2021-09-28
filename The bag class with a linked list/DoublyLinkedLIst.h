@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <cassert>
+#include <time.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -67,7 +69,6 @@ void list_clear(dnode*& head_ptr);
 // postcondition: list clear, 동적으로 할당된 recource(nodes) 반환
 
 
-
 //Doubly Linked List를 이용해 data를 저장하는 bag class
 class bag {
 public:
@@ -79,9 +80,12 @@ public:
 	~bag();
 	
 	void operator =(const bag& source); //assingment
-	void operator +=(const bag& addend); 
+	void operator +=(const bag& addend);
+
 	bool operator ==(const bag& source);
 	bool operator !=(const bag& source);
+    // postcondition: 두 bag class가 저장하고 있는 data를 비교하는 연산자
+	//				  (data의 순서를 고려하지 않는다.)
 
 	bool erase_one(const value_type& target);
 	// postcondition: bag class에 저장된 data를 조사하여 target값과 같은 data를 갖는
@@ -105,8 +109,8 @@ public:
 	void insert(const value_type& entry);
 	// postcondition: 인자로 전달된 entry의 값을 data로 갖는 node를 head에 삽입
 
-	void sort(bag& source);
-	// postcondition: 인자로 전달된 bag class의 data를 오름차순으로 정렬 
+	void sort();
+	// postcondition: bag class의 data를 오름차순으로 정렬 
 private:
 	dnode* head_ptr;
 	dnode* tail_ptr;
