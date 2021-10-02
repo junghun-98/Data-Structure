@@ -1,8 +1,5 @@
 #pragma once
 #include <iostream>
-#include <cassert>
-#include <time.h>
-#include <algorithm>
 
 using namespace std;
 
@@ -63,7 +60,7 @@ void list_head_remove(dnode*& head_ptr);
 // postcondition: 인자로 전달된 head_ptr이 가리키는 list의 head node를 제거
 
 void list_remove(dnode* previous_ptr);
-// postcondition: 인자로 전달된 previous_ptr이 가리키는 node 다음 node 제거
+// postcondition: 인자로 전달된 remove_ptr이 가리키는 node제거
 
 void list_clear(dnode*& head_ptr);
 // postcondition: list clear, 동적으로 할당된 recource(nodes) 반환
@@ -80,7 +77,7 @@ public:
 	~bag();
 	
 	void operator =(const bag& source); //assingment
-	void operator +=(const bag& addend);
+	void operator +=(const bag& addend); //bag class에 데이터 추가
 
 	bool operator ==(const bag& source);
 	bool operator !=(const bag& source);

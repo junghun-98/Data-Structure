@@ -2,6 +2,8 @@
 //bag Class의 멤버 함수 구현 파일
 
 #include "DoublyLinkedLIst.h"
+#include <cassert>
+#include <time.h>
 
 size_t list_length(const dnode* head_ptr){
 	size_t size = 0;
@@ -110,7 +112,7 @@ void list_head_remove(dnode*& head_ptr) {
 	
 	delete remove_ptr;
 }
-
+//수정예정
 void list_remove(dnode* previous_ptr) {
 	if (previous_ptr == NULL) return;
 
@@ -130,7 +132,7 @@ void list_clear(dnode*& head_ptr) {
 	}
 }
 
-bag::bag(){
+bag::bag() {
 	head_ptr = NULL;
 	tail_ptr = NULL;
 	many_nodes = 0;
@@ -215,14 +217,6 @@ bool bag::operator !=(const bag& source){
 	return false;
 }
 
-bag operator +(bag& addend1, bag& addend2){
-	bag temp;
-
-	temp += addend2;
-	temp += addend1;
-
-	return temp;
-}
 
 bool bag::erase_one(const bag::value_type& target){
 	dnode* target_ptr;

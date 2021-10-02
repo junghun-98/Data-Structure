@@ -1,28 +1,9 @@
-#include "tree.h"
-#include <iostream>
-#include <set>
+//비트 논리 연산 출력 결과를 구하고, 실행결과와 비교하라
 
+#include <iostream>  
 using namespace std;
-
 int main()
 {
-    int a, b;
-    printf("Enter two values including negative number to operate  : ");
-    scanf_s("%d %d", &a, &b);
-
-    if (b > 0) {
-        while (b > 0) {
-            a++;
-            b--;
-        }
-    }
-    if (b < 0) { // when 'b' is negative
-        while (b < 0) {
-            a--;
-            b++;
-        }
-    }
-    printf("a = %d", a);
-    return 0;
+	double a = 2.1;
+	cout << sizeof(a);
 }
-
