@@ -57,7 +57,9 @@ public:
 
 	bool empty();
 	//postcondition: stack이 비었는지 판별하고 boolean값 반환
+	
 	void show();
+	//postcondition: stack의 data현황 출력
 	size_t get_size() const { return size; }
 private:
 	dnode<item>* top_ptr;
@@ -94,5 +96,12 @@ public:
 	//				in which variables are allowed
 	// postcondition: the evaluation result for s has been returned
 private:
-	stack<char> token;
+	stack<char> token; //수식을 변환 할때 수식을 token으로 읽어올 char형 stack
+	stack<double> number; //수식을 계산 할 때 사용할 double형 stack
 };
+
+bool is_lower(char new_op, char old_op);
+//postcondition: new_op와 old_op의 연산자 우선순위를 판단해서 new_op의 우선순위가 old_op보다 낮거나 같다면 true, 높으면 false반환 
+
+void write_string(string& s, stack<char>& b);
+//postcondition: 스택 top에 저장되어 있는 연산자를 문자열 s에 추가하고 추가한 연산자는 stack에서 pop

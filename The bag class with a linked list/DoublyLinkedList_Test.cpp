@@ -1,4 +1,5 @@
 #include "DoublyLinkedLIst.h"
+#include <vector>
 
 bag operator +(bag& addend1, bag& addend2) {
 	bag temp;
@@ -41,25 +42,32 @@ int main() {
 	if (b1 != b2) cout << "b1 != b2\n";
 	else cout << "b1 == b2\n";
 	
-	if (b2 == b3) cout << "b1 == b2\n";
-	else cout << "b1 != b2\n";
+	if (b2 == b3) cout << "b2 == b3\n";
+	else cout << "b2 != b3\n";
 
 	bag b4 = b2 + b3;
-	cout << "b4 = b1 + b3: "; b4.show_content();
+	cout << "b4 = b2 + b3: "; 
+	b4.show_content();
 	cout << endl;
 
 	//fucntions
 	cout << "*****Test fucntions*****\n\n";
 
-	cout << "before insert data(9) b1 : ";  b1.show_content();
+	cout << "before insert data(9) b1 : "; 
+	b1.show_content();
 	b1.insert(9);
-	cout << "after insert data(9) b1 : ";  b1.show_content();
+	
+	cout << "after insert data(9) b1 : ";  
+	b1.show_content();
 
 	cout << endl;
 
-	cout << "before remove data(0) b1 : ";  b1.show_content();
+	cout << "before remove data(0) b1 : "; 
+	b1.show_content();
+	
 	b1.erase_one(0);
-	cout << "after remove data(0) b1 : ";  b1.show_content();
+	cout << "after remove data(0) b1 : "; 
+	b1.show_content();
 
 	cout << endl;
 
@@ -86,7 +94,9 @@ int main() {
 	cout << "print reverse : ";
 	b1.show_content_reverse();
 
-	//실행 결과 확인 대기
+	cout << "grab() b1 :" << b1.grab() << endl;
+
+	//실행 결과를 확인하기 위해 대기
 	system("pause");
 	
 	return 0;

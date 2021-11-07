@@ -37,7 +37,7 @@ void list_insert(dnode* previous_ptr, const dnode::value_type& entry) {
 	if (insert_ptr->get_forelink() != NULL) { //Insert data between two dnodes
 		insert_ptr->get_forelink()->set_backlink(insert_ptr);
 	}
-	//else NULL -> Insert data between tail dnodes
+	//else NULL -> tail node 다음에 데이터를 추가한다.
 }
 
 dnode* list_search(dnode* head_ptr, const dnode::value_type& target) {
@@ -112,13 +112,13 @@ void list_head_remove(dnode*& head_ptr) {
 	
 	delete remove_ptr;
 }
-//수정예정
+
 void list_remove(dnode* previous_ptr) {
 	if (previous_ptr == NULL) return;
 
 	dnode* remove_ptr = previous_ptr->get_forelink();
 
-	if (remove_ptr->get_forelink() != NULL) { //Remove dnode between other dnodes (not tail dnodes)
+	if (remove_ptr->get_forelink() != NULL) { //previous_ptr != tail
 		remove_ptr->get_forelink()->set_backlink(previous_ptr);
 		previous_ptr->set_forelink(remove_ptr->get_forelink());
 	}
@@ -188,7 +188,7 @@ bool bag::operator ==(const bag& source){
 	{
 		value_type target = fore_bag->get_data();
 
-		if (count(target) != source.count(target)) {
+		if (count(target) != source.count(target)) { //bag class이기 때문에 데이터의 개수를 비교한다.
 			return false;
 		}
 		fore_bag = fore_bag->get_forelink();
@@ -208,7 +208,7 @@ bool bag::operator !=(const bag& source){
 	{
 		value_type target = fore_bag->get_data();
 
-		if (count(target) != source.count(target)) {
+		if (count(target) != source.count(target)) { //bag class이기 때문에 데이터의 개수를 비교한다.
 			return true;
 		}
 		fore_bag = fore_bag->get_forelink();
@@ -235,16 +235,18 @@ bag::size_type bag::count(const bag::value_type& target) const{
 	size_type answer = 0;
 	const dnode* cursor;
 	cursor = list_search(head_ptr, target);
+	
 	while (cursor != NULL) {
 		answer++;
 		cursor = cursor->get_forelink();
 		cursor = list_search(cursor, target);
 	}
+	
 	return answer;
 }
 
 bag::value_type bag::grab(){
-	srand(time(NULL));
+	srand(time(NULL)); //난수 초기화
 
 	size_type i;
 	const dnode* cursor;
@@ -269,7 +271,7 @@ void bag::show_content(){
 	cout << endl;
 }
 
-void bag::show_content_reverse() {
+void bag::show_content_reverse() { //양방향으로 링크가 잘 걸려 있는지 확인할 수 있음.
 	if (tail_ptr == NULL) return;
 	dnode* ptr = tail_ptr;
 	
@@ -284,7 +286,7 @@ void bag::show_content_reverse() {
 void bag::insert(const bag::value_type& entry){
 	list_head_insert(head_ptr, entry);
 
-	if (many_nodes == 0) { //insert data to empty list
+	if (many_nodes == 0) { //insert data to empty bag
 		tail_ptr = head_ptr;
 	}
 
