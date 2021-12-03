@@ -17,17 +17,21 @@ int main() {
 			string result = eva.read_expression();
 			cout << endl;
 
-			cout << "convert_to_postfix: ";
 			result = eva.convert_to_postfix(result);
+			cout << "convert_to_postfix: ";
 			cout << result << endl << endl;
 
-			cout << endl << "result: " << eva.evaluate_postfix(result) << endl;
+			cout << "result: " << eva.evaluate_postfix(result) << endl;
+		}
+		else if (option == "2") {
+			cout << "Thank you\n";
+			break;
 		}
 		else {
 			cout << "You input invalid option!\n";
 		}
 		cout << endl;
 	} 
-
+	system("pause");
 	return 0;
 }

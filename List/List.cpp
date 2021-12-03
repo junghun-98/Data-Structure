@@ -12,7 +12,7 @@ template<typename T> List<T>::~List(){
 }
 
 template<typename T> void List<T>::setnode(Node* n, T setdata, Node* next){
-	n->data = setnum;
+	n->data = setdata;
 	n->next = next;
 }
 
