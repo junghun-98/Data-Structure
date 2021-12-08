@@ -13,16 +13,16 @@ using namespace std;
 template<class item>
 class set {
 public:
-	set();
-	set(const set& source);
-	~set() { clear(); };
+	set();	
+	~set() { clear(); }
+
 	int count(const item& target);
 	//postcondition : target과 일치하는 값이 set내부에 존재하면 1, 그렇지 않으면 0을 반환
 	bool insert(const item& entry);
 	//postcondition : entry가 이미 set에 존재하면 false, 그렇지 않다면 set구조에 데이터 삽입 후 true 반환
 	bool erase(const item& target);
 	//postcondiotion : target이 set에 존재해서 제거 가능하면 제거 후 true, 존재 하지 않으면 false 반환
-	void show_contents(int depth);
+	void show_contents(int depth = 0);
 	//postcondition : set의 데이터를 B-tree 형식으로 출력
 private:
 	//변수 & 상수
@@ -51,10 +51,14 @@ private:
 	//				   2. 두개의 노드 병합 
 	void remove_biggest(item& removed_entry);
 	//postcondition : B-tree구조에서 최댓을 removed_entry에 대입 후 제거
-
+	void to_zero(set* source) { source->data_count = 0; source->child_count = 0; }
+	//소멸자 호출을 원할하게 진행하기 위해 만든 함수
 	void clear();
 	//postcondition : 할당받은 노드들의 메모리 청소
 	bool is_leaf() { return (child_count == 0); }
+
+	void copy_node(set* source);
+	//postcondition : 루트노드의 구조를 source에 복사
 };
 
 //class member function 구현
@@ -64,19 +68,18 @@ template<class item>
 set<item>::set() {
 	data_count = 0;
 	child_count = 0;
-}
 
-template<class item>
-set<item>::set(const set& source) {
-	data_count = source.data_count;
-	child_count = source.child_count;
+	data[MAXIMUM + 1] = { 0, };
 }
 
 template<class item>
 void set<item>::clear() {
 	if (child_count != 0) {
 		for (int i = 0; i < child_count; i++) {
+			subset[i]->clear();
 			
+			to_zero(subset[i]);
+			delete subset[i];
 		}
 	}
 }
@@ -91,7 +94,9 @@ int set<item>::count(const item& target) {
 	}
 
 	if (data[i] == target) return 1;
+
 	else if (child_count == 0) return 0;
+
 	else {
 		return subset[i]->count(target);
 	}
@@ -107,6 +112,7 @@ void set<item>::fix_excess(size_t i) {
 	ptr1->data_count = MINIMUM;
 	ptr2->data_count = MINIMUM;
 
+	//data 복사
 	for (int j = 0; j < MINIMUM; j++) {
 		ptr1->data[j] = subset[i]->data[j];
 	}
@@ -115,6 +121,7 @@ void set<item>::fix_excess(size_t i) {
 		ptr2->data[j - (MINIMUM + 1)] = subset[i]->data[j];
 	}
 
+	//subset 복사
 	if (subset[i]->child_count != 0) {
 		for (int j = 0; j <= MINIMUM; j++) {
 			ptr1->subset[j] = subset[i]->subset[j];
@@ -128,6 +135,7 @@ void set<item>::fix_excess(size_t i) {
 		ptr2->child_count = MINIMUM + 1;
 	}
 
+	//데이터 삽입을 위해 data[i]보다 뒤에 위치한 데이터들의 자리를 옮겨준다. 
 	int index = i;
 	if (data_count != 0) {
 		for (int j = data_count - 1; j >= index; j--) {
@@ -135,20 +143,24 @@ void set<item>::fix_excess(size_t i) {
 		}
 	}
 
+	//subset node 삽입을 위해 subset[i]보다 뒤에 위치한 데이터들의 자리를 옮겨준다. 
 	if (child_count != 0) {
 		for (int j = child_count; j > i + 1; j--) {
 			subset[j] = subset[j - 1];
 		}
 	}
 
+	//data insert
 	data[i] = center_data;
 	data_count++;
 
+	//child insert
 	subset[i] = ptr1;
 	subset[i + 1] = ptr2;
 	child_count++;
 
-	
+	//remove node
+	to_zero(remove_ptr);
 	delete remove_ptr;
 }
 
@@ -189,23 +201,28 @@ bool set<item>::loose_insert(const item& entry) {
 }
 
 template<class item>
+void set<item>::copy_node(set* source) {
+	for (int i = 0; i < data_count; i++) {
+		source->data[i] = data[i];
+	}
+	for (int i = 0; i < child_count; i++) {
+		source->subset[i] = subset[i];
+	}
+	source->data_count = data_count;
+	source->child_count = child_count;
+}
+
+template<class item>
 bool set<item>::insert(const item& entry) {
 	if (!loose_insert(entry)) return false;
 	
 	if (data_count > MAXIMUM) {
 		set<item>* new_set = new set<item>();
-		for (int i = 0; i < data_count; i++) {
-			new_set->data[i] = data[i];
-		}
-		for (int i = 0; i < child_count; i++) {
-			new_set->subset[i] = subset[i];
-		}
-		new_set->data_count = data_count;
-		new_set->child_count = child_count;
+		copy_node(new_set);
 
 		subset[0] = new_set;
 		child_count = 1;
-		fill_n(data, data_count, 0);
+		fill_n(data, MAXIMUM + 1, 0);
 		data_count = 0;
 		fix_excess(0);
 	}
@@ -225,6 +242,174 @@ void set<item>::show_contents(int depth) {
 			if (i != 0) {
 				cout << setw(4 * depth) << data[i - 1] << endl;
 			}
+		}
+	}
+}
+
+template<class item>
+bool set<item>::erase(const item& target) {
+	if (!loose_erase(target)) return false;
+
+	if (data_count == 0 && child_count == 1) {
+		for (int i = 0; i < subset[0]->data_count; i++) {
+			data[i] = subset[0]->data[i];
+		}
+		data_count = subset[0]->data_count;
+
+		set<item>* temp = subset[0];
+		for (int i = 0; i < subset[0]->child_count; i++) {
+			subset[i] = temp->subset[i];
+		}
+		child_count = temp->child_count;
+		
+		to_zero(temp);
+		delete temp;
+	}
+
+	return true;
+}
+
+template<class item>
+bool set<item>::loose_erase(const item& target) {
+	int i;
+	if (data_count == 0) return false;
+
+	for (i = 0; i < data_count; i++) {
+		if (data[i] >= target) break;
+	}
+
+	if (child_count == 0 && i == data_count) return false;
+
+	if (child_count == 0 && data[i] == target) {
+		for (int j = i; j < data_count - 1; j++) {
+			data[j] = data[j + 1];
+		}
+		data_count--;
+		return true;
+	}
+
+	else {
+		if (i == data_count || data[i] != target) {
+			bool b = subset[i]->loose_erase(target);
+			if (!b) return false;
+
+			if (subset[i]->data_count < MINIMUM) {
+				fix_shortage(i);
+				return true;
+			}
+		}
+
+		else if (data[i] == target) {
+			subset[i]->remove_biggest(data[i]);
+
+			if (subset[i]->data_count < MINIMUM) {
+				fix_shortage(i);
+			}
+			return true;
+		}
+	}
+}
+
+template<class item>
+void set<item>::fix_shortage(size_t i) {
+	if (i != 0 && subset[i - 1]->data_count > MINIMUM) {
+		for (int j = subset[i]->data_count - 1; j >= 0; j--) {
+			subset[i]->data[j + 1] = subset[i]->data[j];
+		}
+
+		subset[i]->data[0] = data[i - 1];
+		data[i - 1] = subset[i - 1]->data[subset[i - 1]->data_count - 1];
+		subset[i - 1]->data_count--;
+		subset[i]->data_count++;
+
+		if (subset[i - 1]->child_count != 0) {
+			for (int j = subset[i]->child_count; j >= 0; j--) {
+				subset[i]->subset[j + 1] = subset[i]->subset[j];
+			}
+
+			subset[i]->subset[0] = subset[i - 1]->subset[subset[i - 1]->child_count - 1];
+			subset[i - 1]->subset[subset[i - 1]->child_count - 1] = NULL;
+			subset[i - 1]->child_count--;
+			subset[i]->child_count++;
+		}
+	}
+
+	else if(i != data_count && subset[i + 1]->data_count > MINIMUM){
+		subset[i]->data[subset[i]->data_count] = data[i];
+		data[i] = subset[i + 1]->data[0];
+
+		for (int j = 0; j < subset[i + 1]->data_count - 1; j++) {
+			subset[i + 1]->data[j] = subset[i + 1]->data[j + 1];
+		}
+		
+		subset[i + 1]->data_count--;
+		subset[i]->data_count++;
+
+		if (subset[i + 1]->child_count != 0) {
+			
+			subset[i]->subset[child_count] = subset[i + 1]->subset[0];
+			
+			for (int j = 0; j < subset[i + 1]->child_count; j++) {
+				subset[i + 1]->subset[j] = subset[i + 1]->subset[j + 1];
+			}
+			
+			subset[i + 1]->child_count--;
+			subset[i]->child_count++;
+		}
+	}
+
+	else if (i != 0 && subset[i - 1]->data_count == MINIMUM) {
+		subset[i - 1]->data[subset[i - 1]->data_count] = data[i - 1];
+		data_count--;
+		subset[i - 1]->data_count++;
+
+		for (int j = 0; j < subset[i]->data_count; j++) {
+			subset[i - 1]->data[subset[i - 1]->data_count + j] = subset[i]->data[j];
+		}
+		subset[i - 1]->data_count += subset[i]->data_count;
+
+		for (int j = 0; j < subset[i]->child_count; j++) {
+			subset[i - 1]->subset[subset[i - 1]->child_count + j] = subset[i]->subset[j];
+		}
+		subset[i - 1]->child_count += subset[i]->child_count;
+
+		to_zero(subset[i]);
+		delete subset[i];
+		child_count--;
+	}
+
+	else if (i != data_count && subset[i + 1]->data_count == MINIMUM) {
+		subset[i]->data[subset[i]->data_count] = data[i];
+		data_count--;
+		subset[i]->data_count++;
+
+		for (int j = 0; j < subset[i + 1]->data_count; j++) {
+			subset[i]->data[subset[i]->data_count + j] = subset[i + 1]->data[j];
+		}
+		subset[i]->data_count += subset[i + 1]->data_count;
+
+		for (int j = 0; j < subset[i + 1]->child_count; j++) {
+			subset[i]->subset[subset[i]->child_count + j] = subset[i + 1]->subset[j];
+		}
+		subset[i]->child_count += subset[i + 1]->child_count;
+
+		to_zero(subset[i + 1]);
+		delete subset[i + 1];
+		child_count--;
+	}
+}
+
+template<class item>
+void set<item>::remove_biggest(item& removed_entry) {
+	if (child_count == 0) {
+		removed_entry = data[data_count - 1];
+		data_count--;
+	}
+	else {
+		subset[child_count - 1]->remove_biggest(removed_entry);
+
+		if (subset[child_count - 1]->data_count < MINIMUM) {
+			fix_shortage(child_count - 1);
 		}
 	}
 }
